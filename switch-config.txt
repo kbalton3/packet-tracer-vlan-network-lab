@@ -1,0 +1,64 @@
+! ==================================================
+! Switch0 Configuration
+! VLAN Segmentation and Trunking Lab
+! ==================================================
+
+hostname Switch
+
+! ==================================================
+! VLAN Creation
+! ==================================================
+
+! HR Department
+vlan 10
+ name HR
+ exit
+
+! IT Department
+vlan 20
+ name IT
+ exit
+
+! Finance Department
+vlan 30
+ name FINANCE
+ exit
+
+
+! ==================================================
+! Access Port Configuration
+! ==================================================
+
+! HR - VLAN 10
+! PC0 and PC1
+interface range FastEthernet0/1 - 2
+ switchport mode access
+ switchport access vlan 10
+ exit
+
+! IT - VLAN 20
+! PC2 and PC3
+interface range FastEthernet0/3 - 4
+ switchport mode access
+ switchport access vlan 20
+ exit
+
+! Finance - VLAN 30
+! PC4 and PC5
+interface range FastEthernet0/5 - 6
+ switchport mode access
+ switchport access vlan 30
+ exit
+
+
+! ==================================================
+! 802.1Q Trunk to Router0
+! ==================================================
+
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ no shutdown
+ exit
+
+end

@@ -1,0 +1,65 @@
+! ==================================================
+! Router0 Configuration
+! VLAN Routing and DHCP Lab
+! ==================================================
+
+hostname Router
+
+! --------------------
+! DHCP Exclusions
+! --------------------
+
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+ip dhcp excluded-address 192.168.30.1 192.168.30.10
+
+! --------------------
+! DHCP - HR VLAN 10
+! --------------------
+
+ip dhcp pool HR
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 8.8.8.8
+
+! --------------------
+! DHCP - IT VLAN 20
+! --------------------
+
+ip dhcp pool IT
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ dns-server 8.8.8.8
+
+! --------------------
+! DHCP - Finance VLAN 30
+! --------------------
+
+ip dhcp pool FINANCE
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ dns-server 8.8.8.8
+
+! ==================================================
+! Router-on-a-Stick / Inter-VLAN Routing
+! ==================================================
+
+interface GigabitEthernet0/1
+ no shutdown
+
+! HR - VLAN 10
+interface GigabitEthernet0/1.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+
+! IT - VLAN 20
+interface GigabitEthernet0/1.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+
+! Finance - VLAN 30
+interface GigabitEthernet0/1.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+
+end
